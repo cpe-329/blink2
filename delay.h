@@ -18,7 +18,7 @@
 
 void init_dco(void);
 
-void set_DCO(unsigned int freq);
+void set_dco(unsigned int freq);
 
 void delay_ms(unsigned int msec, unsigned int freq);
 

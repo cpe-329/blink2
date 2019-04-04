@@ -25,7 +25,7 @@ void safe_48(){
      ~(FLCTL_BANK1_RDCTL_WAIT_MASK)) | FLCTL_BANK1_RDCTL_WAIT_1;
 }
 
-void set_DCO(unsigned int freq){
+void set_dco(unsigned int freq){
     CS->KEY = CS_KEY_VAL;
     CS->CTL0 = 0;
     switch(freq){
@@ -76,7 +76,7 @@ int freq_to_cycles(unsigned int freq){
 }
 void delay_ms(unsigned int msec, unsigned int freq){
     unsigned int i, j;
-    i = (msec*1000 * freq_to_cycles(freq))/CLK_PER_LOOP;
+    i = msec * 1000 * freq_to_cycles(freq) / CLK_PER_LOOP;
     for(j = i; j > 0; j--);
 }
 
