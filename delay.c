@@ -1,15 +1,12 @@
 #include "delay.h"
 
-
 void init_dco(void){
     CS->KEY = CS_KEY_VAL;  // Unlock key
     CS->CTL0 = 0;  // Reset
     CS->CTL0 = CS_CTL0_DCORSEL_3;
-
     CS->CTL1 = CS_CTL1_SELA_2 | // Set ACLK to REFCLK
                CS_CTL1_SELS_3 | // Set SMCLK to DCO
                CS_CTL1_SELM_3;  // Set MCLK to DCO
-
     CS->KEY = LOCK_CS_KEY; // Lock key
 }
 
@@ -55,39 +52,40 @@ void set_dco(unsigned int freq){
     CS->KEY = 0;
 }
 
-int freq_to_cycles(unsigned int freq){
+int one_usec(unsigned int freq){
+
     switch(freq){
     case(FREQ_1_5_MHZ):
-        return 1500000;
+        return 130;
     case(FREQ_3_MHZ):
-        return 3000000;
+        return 280;
     case(FREQ_6_MHZ):
-        return 6000000;
+        return 586;
     case(FREQ_12_MHZ):
-        return 12000000;
+        return 990;
     case(FREQ_24_MHZ):
-        return 24000000;
+        return 2400;
     case(FREQ_48_MHZ):
-        return 48000000;
+        return 4360;
     default:
         // Default to 1.5MHz
-        return 1500000;
+        return 65;
     }
 }
 void delay_ms(unsigned int msec, unsigned int freq){
-    unsigned int i, j;
-    i = msec * 1000 * freq_to_cycles(freq) / CLK_PER_LOOP;
+    unsigned int j;
+    volatile int i = msec * one_usec(freq);
     for(j = i; j > 0; j--);
 }
 
 void delay_us(unsigned int usec, unsigned int freq){
-    unsigned int i, j;
-    i = (usec *1000000 * freq_to_cycles(freq))/CLK_PER_LOOP;
+    unsigned int j;
+    volatile int i = usec * one_usec(freq) / 1000;
     for(j = i; j > 0; j--);
 }
 
 void delay_for_loop(const int iterations){
-    volatile uint i;
+    volatile int i;
     for(i = iterations; i> 0; i--);
 }
 
