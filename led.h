@@ -18,11 +18,13 @@
 #define LED_RGB_STATE_ON 0b00000111
 
 // Setup LED1
-void init_led1(void);
+inline void init_led1(void);
 
 // Toggle LED1
-void toggle_led1(void);
+inline void toggle_led1(void);
 
+
+void blink_led1(int msec, int freq);
 
 // Setup RGB LED
 void init_led_rgb(void);

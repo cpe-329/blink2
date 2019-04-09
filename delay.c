@@ -52,41 +52,62 @@ void set_dco(unsigned int freq){
     CS->KEY = 0;
 }
 
-int one_usec(unsigned int freq){
-
+static inline int one_msec(const unsigned int freq){
     switch(freq){
-    case(FREQ_1_5_MHZ):
-        return 130;
-    case(FREQ_3_MHZ):
-        return 280;
-    case(FREQ_6_MHZ):
-        return 586;
-    case(FREQ_12_MHZ):
-        return 990;
-    case(FREQ_24_MHZ):
-        return 2400;
     case(FREQ_48_MHZ):
-        return 4360;
+        return 3000;
+    case(FREQ_24_MHZ):
+        return 1711;
+    case(FREQ_12_MHZ):
+        return 852;
+    case(FREQ_6_MHZ):
+        return 421;
+    case(FREQ_3_MHZ):
+        return 207;
     default:
         // Default to 1.5MHz
-        return 65;
+        return 98;
     }
 }
-void delay_ms(unsigned int msec, unsigned int freq){
-    unsigned int j;
-    volatile int i = msec * one_usec(freq);
-    for(j = i; j > 0; j--);
+
+inline delay_one_ms(const unsigned int freq){
+     unsigned int j = one_msec(freq);
+     while(j-- > 0);
 }
 
-void delay_us(unsigned int usec, unsigned int freq){
-    unsigned int j;
-    volatile int i = usec * one_usec(freq) / 1000;
-    for(j = i; j > 0; j--);
+inline void delay_ms(unsigned int msec, const unsigned int freq){
+    while (msec-- > 0){
+        delay_one_ms(freq);
+    }
+}
+
+inline void delay_one_us_at_48(){
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+}
+
+inline void delay_us(unsigned int usec, const unsigned int freq){
+    while(usec-- > 0){
+        delay_one_us_at_48()
+    }
 }
 
 void delay_for_loop(const int iterations){
     volatile int i;
     for(i = iterations; i> 0; i--);
 }
-
-

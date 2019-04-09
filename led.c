@@ -1,8 +1,8 @@
 #include "led.h"
-
+#include "delay.h"
 
 // Setup LED1
-void init_led1(void){
+inline void init_led1(void){
     P1->SEL0 &= ~BIT_0;
     P1->SEL1 &= ~BIT_0;
     P1->DIR |= GPIO_1_MODE_OUTPUT;
@@ -10,8 +10,14 @@ void init_led1(void){
 }
 
 // Toggle LED1
-void toggle_led1(void){
+inline void toggle_led1(void){
     P1->OUT ^= LED1_STATE_ON;
+}
+
+void blink_led1(int msec, int freq){
+    toggle_led1();
+    delay_ms(msec, freq);
+    toggle_led1();
 }
 
 
