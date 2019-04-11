@@ -103,7 +103,7 @@ inline void delay_one_us_at_48(){
 
 inline void delay_us(unsigned int usec, const unsigned int freq){
     while(usec-- > 0){
-        delay_one_us_at_48()
+        delay_one_us_at_48();
     }
 }
 

@@ -26,14 +26,14 @@ void main(void)
     {
 //        blink_led1(DELAY, FREQ);
         toggle_led1();
-        delay_one_us_at_48();
+        //delay_one_us_at_48();
 //        if (rgb_value == LED_RGB_STATE_ON + 1){
 //            rgb_value = 01;
 //        }
 //
 //        set_led_rgb_value(rgb_value);
 //        rgb_value = rgb_value + 1;
-//        delay_ms(DELAY, FREQ);
+          delay_ms(DELAY, FREQ);
 //
 //        set_led_rgb_value(0);
 //        delay_ms(DELAY, FREQ);
