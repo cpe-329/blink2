@@ -3,9 +3,6 @@
 
 #include "msp.h"
 
-#include "types.h"
-
-
 #define LOCK_CS_KEY 0
 #define CLK_PER_LOOP 4
 
@@ -18,16 +15,22 @@
 
 #define NOP asm(" NOP");
 
+// Initialize DCO and other clock values
 void init_dco(void);
 
+// Set DCO to provide frequency
 void set_dco(unsigned int freq);
 
+// Delay for 1ms at the given frequency
 inline delay_one_ms(const unsigned int freq);
 
+// Delay for the given number of ms at the given frequency
 inline void delay_ms(unsigned int msec, unsigned int freq);
-inline void delay_one_us_at_48();
-inline void delay_us(unsigned int usec, unsigned int freq);
 
-inline void delay_for_loop(const int iterations);
+// Fine tuned 1 us delay only to be used at 48MHz
+inline void delay_one_us_at_48();
+
+// Delay for the given number of us 
+inline void delay_us(unsigned int usec, unsigned int freq);
 
 #endif

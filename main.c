@@ -4,38 +4,47 @@
 #include "delay.h"
 #include "led.h"
 
-#define DELAY (1000)
-#define FREQ FREQ_48_MHZ
+#define DELAY (1000)  // Millisecond delay value
+#define FREQ FREQ_1_5_MHZ  // DCO frequency to use for main clock
+
+
 void main(void)
 {
-   	DISABLE_WATCHDOG()
+   	DISABLE_WATCHDOG  // Watchdog disable macro from watchdog.h
 
-    init_dco();
+    init_dco();  // Initial the DCO and other clocks to initial values
 
-   	set_dco(FREQ);
+    init_led1();  // Initialize LED1 for use at GPIO output
 
-    init_led1();
-//    init_led_rgb();
+    volatile int i;  // Volatile value to prevent shenanigans 
 
+
+    // Assignment sections, comment out as needed
+
+    // Fastest possible pulse
+    set_dco(FREQ_48_MHZ);
+    toggle_led1();
     toggle_led1();
 
-    volatile int i;
-//    int rgb_value = 0;
 
+    // Two 1 us pulses
+    set_dco(FREQ_48_MHZ);
+    toggle_led1();
+    delay_one_us_at_48();
+    toggle_led1();
+    delay_one_us_at_48();
+
+    toggle_led1();
+    delay_one_us_at_48();
+    toggle_led1();
+    delay_one_us_at_48();
+
+
+    // Loop for 1 s blinking
+    set_dco(FREQ);
     while(1)
     {
-//        blink_led1(DELAY, FREQ);
-        toggle_led1();
-        //delay_one_us_at_48();
-//        if (rgb_value == LED_RGB_STATE_ON + 1){
-//            rgb_value = 01;
-//        }
-//
-//        set_led_rgb_value(rgb_value);
-//        rgb_value = rgb_value + 1;
-          delay_ms(DELAY, FREQ);
-//
-//        set_led_rgb_value(0);
-//        delay_ms(DELAY, FREQ);
+       toggle_led1();
+       delay_ms(DELAY, FREQ);
     }
 }
